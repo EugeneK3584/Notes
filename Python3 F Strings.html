@@ -1,0 +1,1542 @@
+
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    
+    <link href="https://files.realpython.com" rel="preconnect">
+
+    <title>Python 3&#x27;s F-Strings: An Improved String Formatting Syntax (Guide) – Real Python</title>
+    <meta name="author" content="Real Python">
+    <meta name="description" content="As of Python 3.6, f-strings are a great new way to format strings. Not only are they more readable, more concise, and less prone to error than other ways of formatting, but they are also faster! By the end of this article, you will learn how and why to start using f-strings today.">
+    <meta name="keywords" content="">
+
+    
+  
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+
+    
+      <link rel="stylesheet" href="/static/realpython.min.2a653ded9c17.css">
+      <link rel="stylesheet" href="/static/gfonts/font.5ac42994de49.css">
+      <link rel="preload" href="/static/glightbox.min.9b438b29cef1.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="/static/glightbox.min.9b438b29cef1.css"></noscript>
+    
+
+    
+  
+  
+  <link rel="preload" as="image" href="https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg" imagesrcset="/cdn-cgi/image/width=480,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 480w, /cdn-cgi/image/width=640,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 640w, /cdn-cgi/image/width=960,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 960w, /cdn-cgi/image/width=1920,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 1920w" imagesizes="(min-width: 1200px) 690px, (min-width: 780px) calc(-5vw + 669px), (min-width: 580px) 510px, calc(100vw - 30px)">
+
+
+    
+    
+      <link rel="canonical" href="https://realpython.com/python-f-strings/">
+
+      
+      
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg">
+        <meta property="og:image" content="https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg">
+      
+      <meta name="twitter:creator" content="@realpython">
+      <meta name="twitter:site" content="@realpython">
+      <meta property="og:title" content="Python 3&#x27;s F-Strings: An Improved String Formatting Syntax (Guide) – Real Python">
+      <meta property="og:type" content="article">
+      <meta property="og:url" content="https://realpython.com/python-f-strings/">
+      <meta property="og:description" content="As of Python 3.6, f-strings are a great new way to format strings. Not only are they more readable, more concise, and less prone to error than other ways of formatting, but they are also faster! By the end of this article, you will learn how and why to start using f-strings today.">
+    
+
+    <link href="/static/favicon.68cbf4197b0c.png" rel="icon">
+    <link href="https://realpython.com/atom.xml" rel="alternate" title="Real Python" type="application/atom+xml">
+    <link rel="manifest" href="/manifest.json">
+
+    
+
+    
+    
+
+    
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  
+
+  ga('create', 'UA-35184939-1', 'auto', {'allowLinker': true});
+
+  
+
+  
+
+  
+  
+  ga('set', {
+    dimension1: false,
+    dimension2: false
+  });
+  
+
+  ga('send', 'pageview');
+  
+</script>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L7L6L5F6Y6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-L7L6L5F6Y6');
+
+  
+</script>
+
+  </head>
+  <body >
+    
+      
+
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark flex-column ">
+  <div class="container flex-row">
+
+    <a class="navbar-brand" href="/">
+      <img src="/static/real-python-logo.893c30edea53.svg" width="165" height="40" class="d-inline-block align-top" alt="Real Python">
+    </a>
+
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarSupportedContent" role="navigation" aria-label="Main Navigation">
+
+      <ul class="navbar-nav mr-2">
+
+        <li class="nav-item">
+          <a class="nav-link" href="/start-here/">Start&nbsp;Here</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLibrary" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-graduation-cap" aria-hidden="true"></span> Learn Python
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownLibrary">
+            <a class="dropdown-item" href="/search?kind=article&kind=course&order=newest" style="color: #ff7e73; line-height: 110%;"><i class="fa fa-fw mr-1 fa-graduation-cap" aria-hidden="true"></i> Python Tutorials →<br><small class="text-secondary">In-depth articles and video courses</small></a>
+            
+            <a class="dropdown-item" href="/learning-paths/" style="color: #ffc873; line-height: 110%;"><i class="fa fa-fw mr-1 fa-map-o" aria-hidden="true"></i> Learning Paths →<br><small class="text-secondary">Guided study plans for accelerated learning</small></a>
+            <a class="dropdown-item" href="/quizzes/" style="color: #abe0e5; line-height: 110%;"><i class="fa fa-fw mr-1 fa-trophy" aria-hidden="true"></i> Quizzes →<br><small class="text-secondary">Check your learning progress</small></a>
+            <a class="dropdown-item" href="/tutorials/all/" style="color: #ccc; line-height: 110%;"><i class="fa fa-fw mr-1 fa-tags" aria-hidden="true"></i> Browse Topics →<br><small class="text-secondary">Focus on a specific area or skill level</small></a>
+            <a class="dropdown-item" href="/community/" style="color: #e5c6ab; line-height: 110%;"><i class="fa fa-fw mr-1 fa-slack" aria-hidden="true"></i> Community Chat →<br><small class="text-secondary">Learn with other Pythonistas</small></a>
+            <a class="dropdown-item" href="/office-hours/" style="color: #e5c6ab; line-height: 110%;"><i class="fa fa-fw mr-1 fa-users" aria-hidden="true"></i> Office Hours →<br><small class="text-secondary">Live Q&A calls with Python experts</small></a>
+            <a class="dropdown-item" href="/podcasts/rpp/" style="color: #b8abe5; line-height: 110%;"><i class="fa fa-fw mr-1 fa-podcast" aria-hidden="true"></i> Podcast →<br><small class="text-secondary">Hear what’s new in the world of Python</small></a>
+            <a class="dropdown-item pb-3" href="/products/books/" style="color: #abe5b1; line-height: 110%;"><i class="fa fa-fw mr-1 fa-book" aria-hidden="true"></i> Books →<br><small class="text-secondary">Round out your knowledge and learn offline</small></a>
+            
+              <a class="dropdown-item border-top text-warning" href="/account/join/"><i class="fa fa-fw fa-star text-warning" aria-hidden="true"></i> Unlock All Content →</a>
+            
+          </div>
+        </li>
+
+        
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            More
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+            <a class="dropdown-item" href="/learner-stories/">Learner Stories</a>
+            <a class="dropdown-item" href="/newsletter/">Python Newsletter</a>
+            <a class="dropdown-item" href="https://www.pythonjobshq.com" target="_blank">Python Job Board</a>
+            <a class="dropdown-item" href="/team/">Meet the Team</a>
+            <a class="dropdown-item" href="/write-for-us/">Become a Tutorial Writer</a>
+            <a class="dropdown-item" href="/become-an-instructor/">Become a Video Instructor</a>
+          </div>
+        </li>
+
+      </ul> 
+
+      
+      <div class="d-block d-lg-none"> 
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/search" title="Search"><span class="icon baseline"><svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"/></svg></span> Search</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="d-none d-lg-flex align-items-center mr-2 flex-fill">
+        <form class="form-inline w-100" action="/search" method="GET">
+          <a class="js-search-form-submit position-absolute" href="/search" title="Search"><span class="icon baseline text-muted pl-2"><svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1216 832q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"/></svg></span></a>
+          <input class="search-field form-control form-control-md mr-sm-1 mr-lg-2 w-100" style="padding-left: 2rem;" maxlength=50 type="search" placeholder="Search" aria-label="Search" name="q" autocomplete="off">
+          <input type="hidden" name="_from" value="nav">
+        </form>
+      </div>
+      
+
+      <ul class="navbar-nav ml-auto">
+        
+          <li class="nav-item form-inline">
+            <a class="ml-2 ml-lg-0 btn btn-sm btn-primary px-3" href="/account/join/">Join</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn text-light" href="/account/login/?next=%2Fpython-f-strings%2F">Sign&#8209;In</a>
+          </li>
+        
+      </ul>
+
+    
+    </div>
+
+  </div>
+
+  
+
+</nav>
+
+    
+
+    <div class="container main-content">
+      
+
+      
+  <div class="row justify-content-center">
+
+    
+    <aside class="col-md-7 col-lg-4 order-2 d-none d-lg-block">
+      
+  
+
+
+
+<div class="card mb-3 bg-secondary">
+  <form class="card-body" action="/optins/process/" method="post">
+    <div class="form-group">
+      <p class="h5 text-muted text-center">— FREE Email Series —</p>
+      <p class="h3 text-center">🐍 Python Tricks 💌</p>
+      <p><img loading="lazy" class="img-fluid rounded" src="/static/pytrick-dict-merge.4201a0125a5e.png" width="738" height="490" alt="Python Tricks Dictionary Merge"></p>
+    </div>
+    <div class="form-group">
+      <input type="hidden" name="csrfmiddlewaretoken" value="bI5IJkel1848VWroP4WPtkCPns26AZV0k4RJbi3HTaLfvwd02f8yevDSXyMez6YR">
+      <input type="hidden" name="slug" value="static-python-tricks-sidebar">
+      <input type="email" class="form-control form-control-md" name="email" placeholder="Email&hellip;" required>
+    </div>
+    <button type="submit" name="submit" class="btn btn-primary btn-md btn-block">Get Python Tricks »</button>
+    <p class="mb-0 mt-2 text-muted text-center">🔒 No spam. Unsubscribe any time.</p>
+  </form>
+</div>
+
+
+  
+
+
+<div class="sidebar-module sidebar-module-inset border">
+  <a href="/tutorials/all/" class="badge badge-light text-muted"><i class="fa fa-fw mr-1 fa-tags" aria-hidden="true"></i>Browse Topics</a>
+
+  <a href="/learning-paths/" class="badge badge-light text-muted"><i class="fa fa-fw mr-1 fa-map" aria-hidden="true"></i>Guided Learning Paths</a>
+
+  <br>
+
+  <a href="/search?level=basics" class="badge badge-light text-muted"><i class="fa fa-angle-double-up text-warningX" aria-hidden="true"></i> Basics</a>
+
+  <a href="/search?level=intermediate" class="badge badge-light text-muted"><i class="fa fa-angle-double-up text-warningX" aria-hidden="true"></i><i class="fa fa-angle-double-up text-warningX" aria-hidden="true"></i> Intermediate</a>
+
+  <a href="/search?level=advanced" class="badge badge-light text-muted"><i class="fa fa-angle-double-up text-warningX" aria-hidden="true"></i><i class="fa fa-angle-double-up text-warningX" aria-hidden="true"></i><i class="fa fa-angle-double-up text-warningX" aria-hidden="true"></i> Advanced</a>
+
+  <hr class="my-2">
+
+  
+    
+  
+    
+    <a href="/tutorials/api/" class="badge badge-light text-muted">api</a>
+    
+  
+    
+  
+    
+    <a href="/tutorials/best-practices/" class="badge badge-light text-muted">best-practices</a>
+    
+  
+    
+    <a href="/tutorials/career/" class="badge badge-light text-muted">career</a>
+    
+  
+    
+    <a href="/tutorials/community/" class="badge badge-light text-muted">community</a>
+    
+  
+    
+    <a href="/tutorials/databases/" class="badge badge-light text-muted">databases</a>
+    
+  
+    
+    <a href="/tutorials/data-science/" class="badge badge-light text-muted">data-science</a>
+    
+  
+    
+    <a href="/tutorials/data-structures/" class="badge badge-light text-muted">data-structures</a>
+    
+  
+    
+    <a href="/tutorials/data-viz/" class="badge badge-light text-muted">data-viz</a>
+    
+  
+    
+    <a href="/tutorials/devops/" class="badge badge-light text-muted">devops</a>
+    
+  
+    
+    <a href="/tutorials/django/" class="badge badge-light text-muted">django</a>
+    
+  
+    
+    <a href="/tutorials/docker/" class="badge badge-light text-muted">docker</a>
+    
+  
+    
+    <a href="/tutorials/editors/" class="badge badge-light text-muted">editors</a>
+    
+  
+    
+    <a href="/tutorials/flask/" class="badge badge-light text-muted">flask</a>
+    
+  
+    
+    <a href="/tutorials/front-end/" class="badge badge-light text-muted">front-end</a>
+    
+  
+    
+    <a href="/tutorials/gamedev/" class="badge badge-light text-muted">gamedev</a>
+    
+  
+    
+    <a href="/tutorials/gui/" class="badge badge-light text-muted">gui</a>
+    
+  
+    
+  
+    
+    <a href="/tutorials/machine-learning/" class="badge badge-light text-muted">machine-learning</a>
+    
+  
+    
+    <a href="/tutorials/numpy/" class="badge badge-light text-muted">numpy</a>
+    
+  
+    
+    <a href="/tutorials/projects/" class="badge badge-light text-muted">projects</a>
+    
+  
+    
+    <a href="/tutorials/python/" class="badge badge-light text-muted">python</a>
+    
+  
+    
+    <a href="/tutorials/testing/" class="badge badge-light text-muted">testing</a>
+    
+  
+    
+    <a href="/tutorials/tools/" class="badge badge-light text-muted">tools</a>
+    
+  
+    
+    <a href="/tutorials/web-dev/" class="badge badge-light text-muted">web-dev</a>
+    
+  
+    
+    <a href="/tutorials/web-scraping/" class="badge badge-light text-muted">web-scraping</a>
+    
+  
+</div>
+
+
+
+  
+<div class="sidebar-module sidebar-module-inset p-0" style="overflow:hidden;">
+  
+<div style="display:block;position:relative;">
+  <div style="display:block;width:100%;padding-top:100%;"></div>
+  <div class="rpad" data-unit="1x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div>
+</div>
+
+
+</div>
+
+
+
+  <div class="sidebar-sticky ">
+    
+      <div class="bg-light sidebar-module sidebar-module-inset" id="sidebar-toc">
+        <p class="h4 text-muted"><a class="link-unstyled" href="#toc">Table of Contents</a></p>
+        <div class="toc">
+<ul>
+<li><a href="#old-school-string-formatting-in-python">&ldquo;Old-school&rdquo; String Formatting in Python</a><ul>
+<li><a href="#option-1-formatting">Option #1: %-formatting</a></li>
+<li><a href="#option-2-strformat">Option #2: str.format()</a></li>
+</ul>
+</li>
+<li><a href="#f-strings-a-new-and-improved-way-to-format-strings-in-python">f-Strings: A New and Improved Way to Format Strings in Python</a><ul>
+<li><a href="#simple-syntax">Simple Syntax</a></li>
+<li><a href="#arbitrary-expressions">Arbitrary Expressions</a></li>
+<li><a href="#multiline-f-strings">Multiline f-Strings</a></li>
+<li><a href="#speed">Speed</a></li>
+</ul>
+</li>
+<li><a href="#python-f-strings-the-pesky-details">Python f-Strings: The Pesky Details</a><ul>
+<li><a href="#quotation-marks">Quotation Marks</a></li>
+<li><a href="#dictionaries">Dictionaries</a></li>
+<li><a href="#braces">Braces</a></li>
+<li><a href="#backslashes">Backslashes</a></li>
+<li><a href="#inline-comments">Inline Comments</a></li>
+</ul>
+</li>
+<li><a href="#go-forth-and-format">Go Forth and Format!</a></li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ul>
+</div>
+
+      </div>
+    
+
+    <div class="sidebar-module sidebar-module-inset text-center my-3 py-0">
+      <div class="jsCompletionStatusWidget btn-group mb-0">
+  <button title="Click to mark as completed" class="jsBtnCompletion btn btn-secondary border-right " style="border-top-right-radius: 0; border-bottom-right-radius: 0;" disabled>Mark as Completed</button>
+  <button title="Add bookmark" class="jsBtnBookmark btn btn-secondary border-left" disabled><i class="fa fa-fw fa-bookmark-o"></i></button>
+</div>
+
+      <div class="my-2">
+        
+<div class="btn-group mb-0">
+  <a class="btn btn-secondary border-right" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" title="Liked it" aria-label="Thumbs up (liked it)" href="/feedback/survey/article/python-f-strings/liked/?from=article-sidebar" target="_blank"><span class="icon baseline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288.8 81.7c3.5-12.8 16.7-20.3 29.5-16.8s20.3 16.7 16.8 29.5l-4.5 16.4c-5.5 20.2-13.9 39.3-24.7 56.9c-3.1 4.9-3.2 11.1-.4 16.2s8.2 8.2 14 8.2H448c17.7 0 32 14.3 32 32c0 11.3-5.9 21.3-14.8 27c-7.2 4.6-9.5 13.9-5.3 21.3c2.6 4.6 4.1 10 4.1 15.7c0 12.4-7 23.1-17.3 28.5c-4.2 2.2-7.3 6.1-8.3 10.8s.1 9.5 3 13.2c4.2 5.4 6.7 12.2 6.7 19.5c0 14.2-9.2 26.3-22.1 30.4c-7.8 2.6-12.4 10.6-10.7 18.6c.5 2.2 .7 4.5 .7 6.9c0 17.7-14.3 32-32 32H294.5c-15.8 0-31.2-4.7-44.4-13.4l-38.5-25.7c-9-6-16.6-13.7-22.4-22.6c-4.9-7.4-14.8-9.4-22.2-4.6s-9.4 14.8-4.6 22.2c8.1 12.3 18.7 23.1 31.4 31.6l38.5 25.7c18.4 12.3 40 18.8 62.1 18.8H384c35.3 0 64-28.7 64-64l0-.6c19.1-11.1 32-31.7 32-55.4c0-8.7-1.8-17.1-4.9-24.7C487.9 323.6 496 306.8 496 288c0-6.5-1-12.8-2.8-18.7C504.8 257.7 512 241.7 512 224c0-35.3-28.7-64-64-64H346.4c6.2-13.1 11.3-26.7 15.1-40.9l4.5-16.4c8.1-29.8-9.5-60.6-39.3-68.8s-60.6 9.5-68.8 39.3l-4.5 16.4c-8.9 32.6-29.6 60.8-58.2 79l-3.1 2c-11.8 7.5-21.7 17.1-29.5 28.2c-5.1 7.2-3.3 17.2 4 22.3s17.2 3.3 22.3-4c5.4-7.7 12.2-14.4 20.4-19.5l3.1-2c35.3-22.4 60.9-57.2 71.9-97.5l4.5-16.4zM32 224H96V448H32V224zM0 224V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32z"/></svg></span></a>
+  <a class="btn btn-secondary border-left" aria-label="Thumbs down (disliked it)" title="Disliked it" href="/feedback/survey/article/python-f-strings/disliked/?from=article-sidebar" target="_blank"><span class="icon baseline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288.8 430.3c3.5 12.8 16.7 20.3 29.5 16.8s20.3-16.7 16.8-29.5l-4.5-16.4c-5.5-20.2-13.9-39.3-24.7-56.9c-3.1-4.9-3.2-11.1-.4-16.2s8.2-8.2 14-8.2H448c17.7 0 32-14.3 32-32c0-11.3-5.9-21.3-14.8-27c-7.2-4.6-9.5-13.9-5.3-21.3c2.6-4.6 4.1-10 4.1-15.7c0-12.4-7-23.1-17.3-28.5c-4.2-2.2-7.3-6.1-8.3-10.8s.1-9.5 3-13.2c4.2-5.4 6.7-12.2 6.7-19.5c0-14.2-9.2-26.3-22.1-30.4c-7.8-2.5-12.4-10.6-10.7-18.6c.5-2.2 .7-4.5 .7-6.9c0-17.7-14.3-32-32-32H294.5c-15.8 0-31.2 4.7-44.4 13.4l-38.5 25.7c-9 6-16.6 13.7-22.4 22.6c-4.9 7.4-14.8 9.4-22.2 4.6s-9.4-14.8-4.6-22.2c8.1-12.3 18.7-23.1 31.4-31.6l38.5-25.7c18.4-12.3 40-18.8 62.1-18.8H384c35.3 0 64 28.7 64 64l0 .6c19.1 11.1 32 31.7 32 55.4c0 8.7-1.8 17.1-4.9 24.7C487.9 188.4 496 205.2 496 224c0 6.5-1 12.8-2.8 18.7C504.8 254.3 512 270.3 512 288c0 35.3-28.7 64-64 64H346.4c6.2 13.1 11.3 26.7 15.1 40.9l4.5 16.4c8.1 29.8-9.5 60.6-39.3 68.8s-60.6-9.5-68.8-39.3l-4.5-16.4c-8.9-32.6-29.6-60.8-58.2-79l-3.1-2 8.2-12.9-8.2 12.9c-11.8-7.5-21.7-17.1-29.5-28.2c-5.1-7.2-3.3-17.2 4-22.3s17.2-3.3 22.3 4c5.4 7.7 12.2 14.4 20.4 19.5l3.1 2c35.3 22.4 60.9 57.2 71.9 97.5l4.5 16.4zM32 352H96V128H32V352zM0 352V128c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32z"/></svg></span></a>
+</div>
+
+      </div>
+    </div>
+
+    
+      <div class="sidebar-module sidebar-module-inset text-center my-3 py-0">
+        
+<span>
+  <a target="_blank" rel="nofollow" href="https://twitter.com/intent/tweet/?text=Check out this %23Python tutorial: Python%203%27s%20F-Strings%3A%20An%20Improved%20String%20Formatting%20Syntax%20%28Guide%29 by @realpython&url=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-twitter text-light mb-1"><i class="mr-1 fa fa-twitter text-light"></i>Tweet</a>
+  <a target="_blank" rel="nofollow" href="https://facebook.com/sharer/sharer.php?u=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-facebook text-light mb-1"><i class="mr-1 fa fa-facebook text-light"></i>Share</a>
+  
+  <a target="_blank" rel="nofollow" href="mailto:?subject=Python article for you&body=Check out this Python tutorial:%0A%0APython%203%27s%20F-Strings%3A%20An%20Improved%20String%20Formatting%20Syntax%20%28Guide%29%0A%0Ahttps%3A//realpython.com/python-f-strings/" class="badge badge-red text-light mb-1"><i class="mr-1 fa fa-envelope text-light"></i>Email</a>
+</span>
+
+      </div>
+    
+
+    
+      <div class="sidebar-module sidebar-module-inset border card">
+        <p><span class="badge badge-pill badge-success"><i class="fa fa-play-circle mr-1" aria-hidden="true"></i> Recommended Video Course</span><br><a class="stretched-link text-success" href="/courses/python-3-f-strings-improved-string-formatting-syntax/">Python 3&#x27;s F-Strings: An Improved String Formatting Syntax</a></p>
+      </div>
+    
+
+    
+      <div class="sidebar-module sidebar-module-inset p-0" style="overflow:hidden;">
+        
+<div style="display:block;position:relative;">
+  <div style="display:block;width:100%;padding-top:25%;"></div>
+  <div class="rpad" data-unit="4x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div>
+</div>
+
+
+      </div>
+    
+
+    
+  </div>
+
+
+    </aside>
+
+    <div class="col-md-11 col-lg-8 article with-headerlinks">
+      
+
+  
+    <figure class="embed-responsive embed-responsive-16by9 rounded">
+      
+        <img class="card-img-top m-0 p-0 embed-responsive-item" style="object-fit: contain; background: #e5c5ac;" alt="F-Strings in Python 3.6" width="1920" height="1080" src="https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg" srcset="/cdn-cgi/image/width=480,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 480w, /cdn-cgi/image/width=640,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 640w, /cdn-cgi/image/width=960,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 960w, /cdn-cgi/image/width=1920,format=auto/https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg 1920w" sizes="(min-width: 1200px) 690px, (min-width: 780px) calc(-5vw + 669px), (min-width: 580px) 510px, calc(100vw - 30px)" fetchpriority="high">
+      
+    </figure>
+  
+
+  <h1>Python 3&#x27;s F-Strings: An Improved String Formatting Syntax (Guide)</h1>
+  <div class="mb-0">
+    
+      <span class="text-muted">by <a class="text-muted" href="#author">Joanna Jablonski</a>
+    
+    
+    
+      <span class="ml-2 mr-1 fa fa-comments"></span><a class="text-muted" href="#reader-comments"><span class="disqus-comment-count" data-disqus-identifier="https://realpython.com/python-f-strings/"></span></a>
+    
+    
+
+    <span class="d-inline d-md-block"> 
+      <span class="ml-2 ml-md-0 fa fa-tags" aria-hidden="true"></span>
+      
+        <a href="/tutorials/basics/" class="badge badge-light text-muted">basics</a>
+      
+        <a href="/tutorials/python/" class="badge badge-light text-muted">python</a>
+      
+    </span>
+
+    <div class="d-sm-flex flex-row justify-content-between my-3 text-center">
+      <div class="jsCompletionStatusWidget btn-group mb-0">
+  <button title="Click to mark as completed" class="jsBtnCompletion btn btn-secondary border-right " style="border-top-right-radius: 0; border-bottom-right-radius: 0;" disabled>Mark as Completed</button>
+  <button title="Add bookmark" class="jsBtnBookmark btn btn-secondary border-left" disabled><i class="fa fa-fw fa-bookmark-o"></i></button>
+</div>
+
+      
+      
+        <div class="align-self-center my-2">
+          
+<span>
+  <a target="_blank" rel="nofollow" href="https://twitter.com/intent/tweet/?text=Check out this %23Python tutorial: Python%203%27s%20F-Strings%3A%20An%20Improved%20String%20Formatting%20Syntax%20%28Guide%29 by @realpython&url=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-twitter text-light mb-1"><i class="mr-1 fa fa-twitter text-light"></i>Tweet</a>
+  <a target="_blank" rel="nofollow" href="https://facebook.com/sharer/sharer.php?u=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-facebook text-light mb-1"><i class="mr-1 fa fa-facebook text-light"></i>Share</a>
+  
+  <a target="_blank" rel="nofollow" href="mailto:?subject=Python article for you&body=Check out this Python tutorial:%0A%0APython%203%27s%20F-Strings%3A%20An%20Improved%20String%20Formatting%20Syntax%20%28Guide%29%0A%0Ahttps%3A//realpython.com/python-f-strings/" class="badge badge-red text-light mb-1"><i class="mr-1 fa fa-envelope text-light"></i>Email</a>
+</span>
+
+        </div>
+      
+    </div>
+  </div>
+
+  
+
+  <div class="article-body">
+    
+      <div class="bg-light sidebar-module sidebar-module-inset" id="toc">
+        <p class="h3 mb-2 text-muted">Table of Contents</p>
+        <div class="toc">
+<ul>
+<li><a href="#old-school-string-formatting-in-python">&ldquo;Old-school&rdquo; String Formatting in Python</a><ul>
+<li><a href="#option-1-formatting">Option #1: %-formatting</a></li>
+<li><a href="#option-2-strformat">Option #2: str.format()</a></li>
+</ul>
+</li>
+<li><a href="#f-strings-a-new-and-improved-way-to-format-strings-in-python">f-Strings: A New and Improved Way to Format Strings in Python</a><ul>
+<li><a href="#simple-syntax">Simple Syntax</a></li>
+<li><a href="#arbitrary-expressions">Arbitrary Expressions</a></li>
+<li><a href="#multiline-f-strings">Multiline f-Strings</a></li>
+<li><a href="#speed">Speed</a></li>
+</ul>
+</li>
+<li><a href="#python-f-strings-the-pesky-details">Python f-Strings: The Pesky Details</a><ul>
+<li><a href="#quotation-marks">Quotation Marks</a></li>
+<li><a href="#dictionaries">Dictionaries</a></li>
+<li><a href="#braces">Braces</a></li>
+<li><a href="#backslashes">Backslashes</a></li>
+<li><a href="#inline-comments">Inline Comments</a></li>
+</ul>
+</li>
+<li><a href="#go-forth-and-format">Go Forth and Format!</a></li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ul>
+</div>
+
+      </div>
+    
+
+    
+    <div class="sidebar-module sidebar-module-inset p-0" style="overflow:hidden;">
+      
+<div style="display:block;position:relative;">
+  <div style="display:block;width:100%;padding-top:12.5%;"></div>
+  <div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div>
+</div>
+<a class="small text-muted" href="/account/join/" rel="nofollow"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i>Remove ads</a>
+
+
+    </div>
+    
+
+    
+      <div class="border rounded p-3 card mb-2">
+  <p class="mb-0"><span class="badge badge-pill badge-success"><i class="fa fa-play-circle" aria-hidden="true"></i> Watch Now</span> This tutorial has a related video course created by the Real Python team. Watch it together with the written tutorial to deepen your understanding: <a class="stretched-link text-success" href="/courses/python-3-f-strings-improved-string-formatting-syntax/"><strong>Python 3&#x27;s F-Strings: An Improved String Formatting Syntax</strong></a></p>
+</div>
+
+    
+
+    <p>As of Python 3.6, f-strings are a great new way to format strings. Not only are they more readable, more concise, and less prone to error than other ways of formatting, but they are also faster!</p>
+<p>By the end of this article, you will learn how and why to start using f-strings today.</p>
+<p>But first, here&rsquo;s what life was like before f-strings, back when you had to walk to school uphill both ways in the snow.</p>
+<div class="alert alert-primary" role="alert">
+<p><strong><i class="fa fa-graduation-cap" aria-hidden="true"></i> Take the Quiz:</strong> Test your knowledge with our interactive “Python F-Strings” quiz. Upon completion you will receive a score so you can track your learning progress over time:</p><p class="text-center my-2"><a class="btn btn-primary" href="/quizzes/f-strings/" target="_blank">Take the Quiz »</a></p>
+</div>
+
+<section class="section2"><h2 id="old-school-string-formatting-in-python">&ldquo;Old-school&rdquo; String Formatting in Python<a class="headerlink" href="#old-school-string-formatting-in-python" title="Permanent link"></a></h2>
+<p>Before Python 3.6, you had two main ways of embedding Python expressions inside string literals for formatting: %-formatting and <code>str.format()</code>. You&rsquo;re about to see how to use them and what their limitations are.</p>
+<div><div class="rounded border border-light" style="display:block;position:relative;"><div style="display:block;width:100%;padding-top:12.5%;"></div><div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div></div><a class="small text-muted" href="/account/join/" rel="nofollow"><i aria-hidden="true" class="fa fa-info-circle mr-1"></i>Remove ads</a></div><section class="section3"><h3 id="option-1-formatting">Option #1: %-formatting<a class="headerlink" href="#option-1-formatting" title="Permanent link"></a></h3>
+<p>This is the OG of Python formatting and has been in the language since the very beginning. You can read more in the <a href="https://docs.python.org/3/library/stdtypes.html#printf-style-string-formatting">Python docs</a>. Keep in mind that %-formatting is not recommended by the docs, which contain the following note:</p>
+<blockquote>
+<p>&ldquo;The formatting operations described here exhibit a variety of quirks that lead to a number of common errors (such as failing to display tuples and dictionaries correctly).</p>
+<p>Using the newer formatted string literals or the <code>str.format()</code> interface helps avoid these errors. These alternatives also provide more powerful, flexible and extensible approaches to formatting text.&rdquo; (<a href="https://docs.python.org/3/library/stdtypes.html#printf-style-string-formatting">Source</a>)</p>
+</blockquote>
+<section class="section4"><h4 id="how-to-use-formatting">How to Use %-formatting<a class="headerlink" href="#how-to-use-formatting" title="Permanent link"></a></h4>
+<p>String objects have a built-in operation using the <code>%</code> operator, which you can use to format strings. Here&rsquo;s what that looks like in practice:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eric&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">name</span>
+<span class="go">&#39;Hello, Eric.&#39;</span>
+</code></pre></div>
+<p>In order to insert more than one variable, you must use a tuple of those variables. Here&rsquo;s how you would do that:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eric&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">74</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">%s</span><span class="s2">. You are </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+<span class="go">&#39;Hello Eric. You are 74.&#39;</span>
+</code></pre></div>
+</section><section class="section4"><h4 id="why-formatting-isnt-great">Why %-formatting Isn&rsquo;t Great<a class="headerlink" href="#why-formatting-isnt-great" title="Permanent link"></a></h4>
+<p>The code examples that you just saw above are readable enough. However, once you start using several parameters and longer strings, your code will quickly become much less easily readable. Things are starting to look a little messy already:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Eric&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">last_name</span> <span class="o">=</span> <span class="s2">&quot;Idle&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">74</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profession</span> <span class="o">=</span> <span class="s2">&quot;comedian&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">affiliation</span> <span class="o">=</span> <span class="s2">&quot;Monty Python&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">. You are </span><span class="si">%s</span><span class="s2">. You are a </span><span class="si">%s</span><span class="s2">. You were a member of </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">profession</span><span class="p">,</span> <span class="n">affiliation</span><span class="p">)</span>
+<span class="go">&#39;Hello, Eric Idle. You are 74. You are a comedian. You were a member of Monty Python.&#39;</span>
+</code></pre></div>
+<p>Unfortunately, this kind of formatting isn&rsquo;t great because it is verbose and leads to errors, like not displaying tuples or <a href="https://realpython.com/python-dicts/">dictionaries</a> correctly. Fortunately, there are brighter days ahead.</p>
+</section></section><section class="section3"><h3 id="option-2-strformat">Option #2: str.format()<a class="headerlink" href="#option-2-strformat" title="Permanent link"></a></h3>
+<p>This newer way of getting the job done was introduced in Python 2.6. You can check out <a href="https://realpython.com/python-formatted-output/">A Guide to the Newer Python String Format Techniques</a> for more info.</p>
+<section class="section4"><h4 id="how-to-use-strformat">How To Use str.format()<a class="headerlink" href="#how-to-use-strformat" title="Permanent link"></a></h4>
+<p><code>str.format()</code>  is an improvement on %-formatting. It uses normal function call syntax and is <a href="https://www.python.org/dev/peps/pep-3101/#controlling-formatting-on-a-per-type-basis">extensible through the <code>__format__()</code> method</a> on the object being converted to a string. </p>
+<p>With <code>str.format()</code>, the replacement fields are marked by curly braces:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">{}</span><span class="s2">. You are </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+<span class="go">&#39;Hello, Eric. You are 74.&#39;</span>
+</code></pre></div>
+<p>You can reference variables in any order by referencing their index:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">{1}</span><span class="s2">. You are </span><span class="si">{0}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="go">&#39;Hello, Eric. You are 74.&#39;</span>
+</code></pre></div>
+<p>But if you insert the variable names, you get the added perk of being able to pass objects and then reference parameters and methods in between the braces:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">person</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Eric&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">74</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">{name}</span><span class="s2">. You are </span><span class="si">{age}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">age</span><span class="o">=</span><span class="n">person</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span>
+<span class="go">&#39;Hello, Eric. You are 74.&#39;</span>
+</code></pre></div>
+<p>You can also use <code>**</code> to do this neat trick with dictionaries:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">person</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Eric&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">74</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Hello, </span><span class="si">{name}</span><span class="s2">. You are </span><span class="si">{age}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">person</span><span class="p">)</span>
+<span class="go">&#39;Hello, Eric. You are 74.&#39;</span>
+</code></pre></div>
+<p><code>str.format()</code> is definitely an upgrade when compared with %-formatting, but it&rsquo;s not all roses and sunshine.</p>
+</section><section class="section4"><h4 id="why-strformat-isnt-great">Why str.format() Isn&rsquo;t Great<a class="headerlink" href="#why-strformat-isnt-great" title="Permanent link"></a></h4>
+<p>Code using <code>str.format()</code> is much more easily readable than code using %-formatting, but <code>str.format()</code> can still be quite verbose when you are dealing with multiple parameters and longer strings. Take a look at this:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Eric&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">last_name</span> <span class="o">=</span> <span class="s2">&quot;Idle&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">74</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profession</span> <span class="o">=</span> <span class="s2">&quot;comedian&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">affiliation</span> <span class="o">=</span> <span class="s2">&quot;Monty Python&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Hello, </span><span class="si">{first_name}</span><span class="s2"> </span><span class="si">{last_name}</span><span class="s2">. You are </span><span class="si">{age}</span><span class="s2">. &quot;</span> <span class="o">+</span> 
+<span class="gp">&gt;&gt;&gt; </span>       <span class="s2">&quot;You are a </span><span class="si">{profession}</span><span class="s2">. You were a member of </span><span class="si">{affiliation}</span><span class="s2">.&quot;</span><span class="p">)</span> \
+<span class="gp">&gt;&gt;&gt; </span>       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="n">last_name</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="n">age</span><span class="p">,</span> \
+<span class="gp">&gt;&gt;&gt; </span>               <span class="n">profession</span><span class="o">=</span><span class="n">profession</span><span class="p">,</span> <span class="n">affiliation</span><span class="o">=</span><span class="n">affiliation</span><span class="p">))</span>
+<span class="go">&#39;Hello, Eric Idle. You are 74. You are a comedian. You were a member of Monty Python.&#39;</span>
+</code></pre></div>
+<p>If you had the variables you wanted to pass to <code>.format()</code> in a dictionary, then you could just unpack it with <code>.format(**some_dict)</code> and reference the values by key in the string, but there has got to be a better way to do this.</p>
+<div><div class="rounded border border-light" style="display:block;position:relative;"><div style="display:block;width:100%;padding-top:12.5%;"></div><div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div></div><a class="small text-muted" href="/account/join/" rel="nofollow"><i aria-hidden="true" class="fa fa-info-circle mr-1"></i>Remove ads</a></div></section></section></section><section class="section2"><h2 id="f-strings-a-new-and-improved-way-to-format-strings-in-python">f-Strings: A New and Improved Way to Format Strings in Python<a class="headerlink" href="#f-strings-a-new-and-improved-way-to-format-strings-in-python" title="Permanent link"></a></h2>
+<p>The good news is that f-strings are here to save the day. They slice! They dice! They make julienne fries! Okay, they do none of those things, but they do make formatting easier. They joined the party in Python 3.6. You can read all about it in <a href="https://www.python.org/dev/peps/pep-0498/">PEP 498</a>, which was written by Eric V. Smith in August of 2015.</p>
+<p>Also called “formatted string literals,” f-strings are string literals that have an <code>f</code> at the beginning and curly braces containing expressions that will be replaced with their values. The expressions are evaluated at runtime and then formatted using the <code>__format__</code> protocol. As always, the <a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">Python docs</a> are your friend when you want to learn more.</p>
+<div class="alert alert-primary" role="alert">
+<p><strong>Note:</strong> Python 3.12 is making f-strings even better! Check out the changes in <a href="https://realpython.com/python312-f-strings/">Python 3.12 Preview: More Intuitive and Consistent F-Strings</a>.</p>
+</div>
+<p>Here are some of the ways f-strings can make your life easier.</p>
+<section class="section3"><h3 id="simple-syntax">Simple Syntax<a class="headerlink" href="#simple-syntax" title="Permanent link"></a></h3>
+<p>The syntax is similar to the one you used with <code>str.format()</code> but less verbose. Look at how easily readable this is:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eric&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">age</span> <span class="o">=</span> <span class="mi">74</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. You are </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="go">&#39;Hello, Eric. You are 74.&#39;</span>
+</code></pre></div>
+<p>It would also be valid to use a capital letter <code>F</code>:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">F</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. You are </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="go">&#39;Hello, Eric. You are 74.&#39;</span>
+</code></pre></div>
+<p>Do you love f-strings yet? I hope that, by the end of this article, you&rsquo;ll answer <a href="https://twitter.com/dbader_org/status/992847368440561664"><code>&gt;&gt;&gt; F"Yes!"</code></a>.</p>
+</section><section class="section3"><h3 id="arbitrary-expressions">Arbitrary Expressions<a class="headerlink" href="#arbitrary-expressions" title="Permanent link"></a></h3>
+<p>Because f-strings are evaluated at runtime, you can put any and all valid Python expressions in them. This allows you to do some nifty things.</p>
+<p>You could do something pretty straightforward, like this:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">37</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;74&#39;</span>
+</code></pre></div>
+<p>But you could also call functions. Here&rsquo;s an example:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">to_lowercase</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="nb">input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eric Idle&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">to_lowercase</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2"> is funny.&quot;</span>
+<span class="go">&#39;eric idle is funny.&#39;</span>
+</code></pre></div>
+<p>You also have the option of calling a method directly:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2"> is funny.&quot;</span>
+<span class="go">&#39;eric idle is funny.&#39;</span>
+</code></pre></div>
+<p>You could even use objects created from classes with f-strings. Imagine you had the following class:</p>
+<div class="highlight python"><pre><span></span><code><span class="k">class</span> <span class="nc">Comedian</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">.&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="si">}</span><span class="s2">. Surprise!&quot;</span>
+</code></pre></div>
+<p>You&rsquo;d be able to do this:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">new_comedian</span> <span class="o">=</span> <span class="n">Comedian</span><span class="p">(</span><span class="s2">&quot;Eric&quot;</span><span class="p">,</span> <span class="s2">&quot;Idle&quot;</span><span class="p">,</span> <span class="s2">&quot;74&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_comedian</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;Eric Idle is 74.&#39;</span>
+</code></pre></div>
+<p><a href="https://realpython.com/operator-function-overloading/">The <code>__str__()</code> and <code>__repr__()</code> methods</a> deal with how objects are presented as strings, so you&rsquo;ll need to make sure you include at least one of those methods in your class definition. If you have to pick one, go with <code>__repr__()</code> because it can be used in place of <code>__str__()</code>. </p>
+<p>The string returned by <code>__str__()</code> is the informal string representation of an object and should be readable. The string returned by <code>__repr__()</code> is the official representation and should be unambiguous. Calling <code>str()</code> and <code>repr()</code> is preferable to using <code>__str__()</code> and <code>__repr__()</code> directly.</p>
+<p>By default, f-strings will use <code>__str__()</code>, but you can make sure they use <code>__repr__()</code> if you include the conversion flag <code>!r</code>:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_comedian</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;Eric Idle is 74.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">new_comedian</span><span class="si">!r}</span><span class="s2">&quot;</span>
+<span class="go">&#39;Eric Idle is 74. Surprise!&#39;</span>
+</code></pre></div>
+<p>If you&rsquo;d like to read some of the conversation that resulted in f-strings supporting full Python expressions, you can do so <a href="https://mail.python.org/pipermail/python-ideas/2015-July/034726.html">here</a>.</p>
+<div><div class="rounded border border-light" style="display:block;position:relative;"><div style="display:block;width:100%;padding-top:12.5%;"></div><div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div></div><a class="small text-muted" href="/account/join/" rel="nofollow"><i aria-hidden="true" class="fa fa-info-circle mr-1"></i>Remove ads</a></div></section><section class="section3"><h3 id="multiline-f-strings">Multiline f-Strings<a class="headerlink" href="#multiline-f-strings" title="Permanent link"></a></h3>
+<p>You can have multiline strings:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eric&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">profession</span> <span class="o">=</span> <span class="s2">&quot;comedian&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">affiliation</span> <span class="o">=</span> <span class="s2">&quot;Monty Python&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;Hi </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. &quot;</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;You are a </span><span class="si">{</span><span class="n">profession</span><span class="si">}</span><span class="s2">. &quot;</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;You were in </span><span class="si">{</span><span class="n">affiliation</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span>
+<span class="go">&#39;Hi Eric. You are a comedian. You were in Monty Python.&#39;</span>
+</code></pre></div>
+<p>But remember that you need to place an <code>f</code> in front of each line of a multiline string. The following code won&rsquo;t work:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="sa">f</span><span class="s2">&quot;Hi </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;You are a </span><span class="si">{profession}</span><span class="s2">. &quot;</span>
+<span class="gp">... </span>    <span class="s2">&quot;You were in </span><span class="si">{affiliation}</span><span class="s2">.&quot;</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span>
+<span class="go">&#39;Hi Eric. You are a {profession}. You were in {affiliation}.&#39;</span>
+</code></pre></div>
+<p>If you don&rsquo;t put an <code>f</code> in front of each individual line, then you&rsquo;ll just have regular, old, garden-variety strings and not shiny, new, fancy f-strings.</p>
+<p>If you want to spread strings over multiple lines, you also have the option of escaping a return with a <code>\</code>:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Hi </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. &quot;</span> \
+<span class="gp">... </span>          <span class="sa">f</span><span class="s2">&quot;You are a </span><span class="si">{</span><span class="n">profession</span><span class="si">}</span><span class="s2">. &quot;</span> \
+<span class="gp">... </span>          <span class="sa">f</span><span class="s2">&quot;You were in </span><span class="si">{</span><span class="n">affiliation</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span>
+<span class="go">&#39;Hi Eric. You are a comedian. You were in Monty Python.&#39;</span>
+</code></pre></div>
+<p>But this is what will happen if you use <code>"""</code>:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="gp">... </span><span class="s2">    Hi </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">. </span>
+<span class="gp">... </span><span class="s2">    You are a </span><span class="si">{</span><span class="n">profession</span><span class="si">}</span><span class="s2">. </span>
+<span class="gp">... </span><span class="s2">    You were in </span><span class="si">{</span><span class="n">affiliation</span><span class="si">}</span><span class="s2">.</span>
+<span class="gp">... </span><span class="s2">&quot;&quot;&quot;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">message</span>
+<span class="go">&#39;\n    Hi Eric.\n    You are a comedian.\n    You were in Monty Python.\n&#39;</span>
+</code></pre></div>
+<p>Read up on indentation guidelines in <a href="https://pep8.org/">PEP 8</a>.</p>
+</section><section class="section3"><h3 id="speed">Speed<a class="headerlink" href="#speed" title="Permanent link"></a></h3>
+<p>The <code>f</code> in f-strings may as well stand for &ldquo;fast.&rdquo;</p>
+<p>f-strings are faster than both %-formatting and <code>str.format()</code>. As you already saw, f-strings are expressions evaluated at runtime rather than constant values. Here&rsquo;s an excerpt from the docs:</p>
+<blockquote>
+<p>&ldquo;F-strings provide a way to embed expressions inside string literals, using a minimal syntax. It should be noted that an f-string is really an expression evaluated at run time, not a constant value. In Python source code, an f-string is a literal string, prefixed with <code>f</code>, which contains expressions inside braces. The expressions are replaced with their values.&rdquo; (<a href="https://www.python.org/dev/peps/pep-0498/#abstract">Source</a>)</p>
+</blockquote>
+<p>At runtime, the expression inside the curly braces is evaluated in its own scope and then put together with the string literal part of the f-string. The resulting string is then returned. That&rsquo;s all it takes.</p>
+<p>Here&rsquo;s a speed comparison:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">timeit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;name = &quot;Eric&quot;</span>
+<span class="gp">... </span><span class="s2">age = 74</span>
+<span class="gp">... </span><span class="s2">&#39;</span><span class="si">%s</span><span class="s2"> is </span><span class="si">%s</span><span class="s2">.&#39; % (name, age)&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.003324444866599663</span>
+</code></pre></div>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;name = &quot;Eric&quot;</span>
+<span class="gp">... </span><span class="s2">age = 74</span>
+<span class="gp">... </span><span class="s2">&#39;</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2">.&#39;.format(name, age)&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.004242089427570761</span>
+</code></pre></div>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;name = &quot;Eric&quot;</span>
+<span class="gp">... </span><span class="s2">age = 74</span>
+<span class="gp">... </span><span class="s2">f&#39;</span><span class="si">{name}</span><span class="s2"> is </span><span class="si">{age}</span><span class="s2">.&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.0024820892040722242</span>
+</code></pre></div>
+<p>As you can see, f-strings come out on top.</p>
+<p>However, that wasn&rsquo;t always the case. When they were first implemented, they had some <a href="https://stackoverflow.com/questions/37365311/why-are-literal-formatted-strings-so-slow-in-python-3-6-alpha-now-fixed-in-3-6">speed issues</a> and needed to be made faster than <code>str.format()</code>. A special <a href="https://bugs.python.org/issue27078"><code>BUILD_STRING</code> opcode</a> was introduced.</p>
+<div><div class="rounded border border-light" style="display:block;position:relative;"><div style="display:block;width:100%;padding-top:12.5%;"></div><div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div></div><a class="small text-muted" href="/account/join/" rel="nofollow"><i aria-hidden="true" class="fa fa-info-circle mr-1"></i>Remove ads</a></div></section></section><section class="section2"><h2 id="python-f-strings-the-pesky-details">Python f-Strings: The Pesky Details<a class="headerlink" href="#python-f-strings-the-pesky-details" title="Permanent link"></a></h2>
+<p>Now that you&rsquo;ve learned all about why f-strings are great, I&rsquo;m sure you want to get out there and start using them. Here are a few details to keep in mind as you venture off into this brave new world.</p>
+<section class="section3"><h3 id="quotation-marks">Quotation Marks<a class="headerlink" href="#quotation-marks" title="Permanent link"></a></h3>
+<p>You can use various types of quotation marks inside the expressions. Just make sure you are not using the same type of quotation mark on the outside of the f-string as you are using in the expression.</p>
+<p>This code will work:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Eric Idle&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;Eric Idle&#39;</span>
+</code></pre></div>
+<p>This code will also work:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="s2">&quot;Eric Idle&quot;</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="go">&#39;Eric Idle&#39;</span>
+</code></pre></div>
+<p>You can also use triple quotes:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;Eric Idle&quot;&quot;&quot;</span>
+<span class="go">&#39;Eric Idle&#39;</span>
+</code></pre></div>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Eric Idle&#39;&#39;&#39;</span>
+<span class="go">&#39;Eric Idle&#39;</span>
+</code></pre></div>
+<p>If you find you need to use the same type of quotation mark on both the inside and the outside of the string, then you can escape with <code>\</code>:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;The </span><span class="se">\&quot;</span><span class="s2">comedian</span><span class="se">\&quot;</span><span class="s2"> is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">, aged </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="go">&#39;The &quot;comedian&quot; is Eric Idle, aged 74.&#39;</span>
+</code></pre></div>
+</section><section class="section3"><h3 id="dictionaries">Dictionaries<a class="headerlink" href="#dictionaries" title="Permanent link"></a></h3>
+<p>Speaking of quotation marks, watch out when you are working with dictionaries. If you are going to use single quotation marks for the keys of the dictionary, then remember to make sure you&rsquo;re using double quotation marks for the f-strings containing the keys.</p>
+<p>This will work:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">comedian</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Eric Idle&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">74</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;The comedian is </span><span class="si">{</span><span class="n">comedian</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, aged </span><span class="si">{</span><span class="n">comedian</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="go">The comedian is Eric Idle, aged 74.</span>
+</code></pre></div>
+<p>But this will be a hot mess with a <a href="https://realpython.com/invalid-syntax-python/">syntax error</a>:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">comedian</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Eric Idle&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">74</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s1">&#39;The comedian is </span><span class="si">{</span><span class="n">comedian</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">, aged </span><span class="si">{</span><span class="n">comedian</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">.&#39;</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="sa">f</span><span class="s1">&#39;The comedian is </span><span class="si">{</span><span class="n">comedian</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">, aged </span><span class="si">{</span><span class="n">comedian</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="si">}</span><span class="s1">.&#39;</span>
+<span class="w">                                    </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">invalid syntax</span>
+</code></pre></div>
+<p>If you use the same type of quotation mark around the dictionary keys as you do on the outside of the f-string, then the quotation mark at the beginning of the first dictionary key will be interpreted as the end of the string.</p>
+<div><div class="rounded border border-light" style="display:block;position:relative;"><div style="display:block;width:100%;padding-top:12.5%;"></div><div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div></div><a class="small text-muted" href="/account/join/" rel="nofollow"><i aria-hidden="true" class="fa fa-info-circle mr-1"></i>Remove ads</a></div></section><section class="section3"><h3 id="braces">Braces<a class="headerlink" href="#braces" title="Permanent link"></a></h3>
+<p>In order to make a brace appear in your string, you must use double braces:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">{{</span><span class="s2">70 + 4</span><span class="se">}}</span><span class="s2">&quot;</span>
+<span class="go">&#39;{70 + 4}&#39;</span>
+</code></pre></div>
+<p>Note that using triple braces will result in there being only single braces in your string:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">{{</span><span class="si">{</span><span class="mi">70</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span>
+<span class="go">&#39;{74}&#39;</span>
+</code></pre></div>
+<p>However, you can get more braces to show if you use more than triple braces:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">{{{{</span><span class="s2">70 + 4</span><span class="se">}}}}</span><span class="s2">&quot;</span>
+<span class="go">&#39;{{70 + 4}}&#39;</span>
+</code></pre></div>
+</section><section class="section3"><h3 id="backslashes">Backslashes<a class="headerlink" href="#backslashes" title="Permanent link"></a></h3>
+<p>As you saw earlier, it is possible for you to use backslash escapes in the string portion of an f-string. However, you can&rsquo;t use backslashes to escape in the expression part of an f-string:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="err">\</span><span class="s2">&quot;Eric Idle</span><span class="se">\&quot;</span><span class="s2">}&quot;</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="err">\</span><span class="s2">&quot;Eric Idle</span><span class="se">\&quot;</span><span class="s2">}&quot;</span>
+<span class="w">                      </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">f-string expression part cannot include a backslash</span>
+</code></pre></div>
+<p>You can work around this by evaluating the expression beforehand and using the result in the f-string:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Eric Idle&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="go">&#39;Eric Idle&#39;</span>
+</code></pre></div>
+</section><section class="section3"><h3 id="inline-comments">Inline Comments<a class="headerlink" href="#inline-comments" title="Permanent link"></a></h3>
+<p>Expressions should not include comments using the <code>#</code> symbol. You&rsquo;ll get a syntax error:</p>
+<div class="highlight python repl"><span class="repl-toggle" title="Toggle REPL prompts and output">&gt;&gt;&gt;</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="sa">f</span><span class="s2">&quot;Eric is </span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="err">#</span><span class="n">Oh</span><span class="w"> </span><span class="n">my</span><span class="err">!</span><span class="si">}</span><span class="s2">.&quot;</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>
+<span class="w">    </span><span class="sa">f</span><span class="s2">&quot;Eric is </span><span class="si">{</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="err">#</span><span class="n">Oh</span><span class="w"> </span><span class="n">my</span><span class="err">!</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="w">                                </span><span class="pm">^</span>
+<span class="gr">SyntaxError</span>: <span class="n">f-string expression part cannot include &#39;#&#39;</span>
+</code></pre></div>
+</section></section><section class="section2"><h2 id="go-forth-and-format">Go Forth and Format!<a class="headerlink" href="#go-forth-and-format" title="Permanent link"></a></h2>
+<p>You can still use the older ways of formatting strings, but with f-strings, you now have a more concise, readable, and convenient way that is both faster and less prone to error. Simplifying your life by using f-strings is a great reason to start using Python 3.6 if you haven&rsquo;t already made the switch. (If you are still using Python 2, don&rsquo;t forget that <a href="https://pythonclock.org/">2020</a> will be here soon!)</p>
+<p>According to the <a href="https://realpython.com/zen-of-python/">Zen of Python</a>, when you need to decide how to do something, then &ldquo;[t]here should be one&ndash; and preferably only one &ndash;obvious way to do it.&rdquo; Although f-strings aren&rsquo;t the only possible way for you to format strings, they are in a great position to become that one obvious way to get the job done.</p>
+</section><section class="section2"><h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link"></a></h2>
+<p>If you&rsquo;d like to read an extended discussion about string interpolation, take a look at <a href="https://www.python.org/dev/peps/pep-0502/">PEP 502</a>. Also, the <a href="https://www.python.org/dev/peps/pep-0536/">PEP 536 draft</a> has some more thoughts about the future of f-strings.</p>
+<div class="alert alert-warning" role="alert">
+<p><strong markdown="1">Free PDF Download:</strong> <a href="https://realpython.com/bonus/python-cheat-sheet-short/" class="alert-link" data-toggle="modal" data-target="#modal-python-cheat-sheet-short" data-focus="false" markdown="1">Python 3 Cheat Sheet</a></p>
+</div>
+<p>For more fun with strings, check out the following articles:</p>
+<ul>
+<li><a href="https://realpython.com/python-string-formatting/">Python String Formatting Best Practices</a> by Dan Bader</li>
+<li><a href="https://realpython.com/python-web-scraping-practical-introduction/">Practical Introduction to Web Scraping in Python</a> by Colin OKeefe</li>
+</ul>
+<p>Happy Pythoning!</p>
+<div class="alert alert-primary" role="alert">
+<p><strong><i class="fa fa-graduation-cap" aria-hidden="true"></i> Take the Quiz:</strong> Test your knowledge with our interactive “Python F-Strings” quiz. Upon completion you will receive a score so you can track your learning progress over time:</p><p class="text-center my-2"><a class="btn btn-primary" href="/quizzes/f-strings/" target="_blank">Take the Quiz »</a></p>
+</div>
+
+</section>
+
+    
+      
+      <div class="text-center my-3">
+        <div class="jsCompletionStatusWidget btn-group mb-0">
+  <button title="Click to mark as completed" class="jsBtnCompletion btn btn-secondary border-right " style="border-top-right-radius: 0; border-bottom-right-radius: 0;" disabled>Mark as Completed</button>
+  <button title="Add bookmark" class="jsBtnBookmark btn btn-secondary border-left" disabled><i class="fa fa-fw fa-bookmark-o"></i></button>
+</div>
+
+        <span class="ml-2">
+<div class="btn-group mb-0">
+  <a class="btn btn-secondary border-right" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" title="Liked it" aria-label="Thumbs up (liked it)" href="/feedback/survey/article/python-f-strings/liked/?from=article-footer" target="_blank"><span class="icon baseline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288.8 81.7c3.5-12.8 16.7-20.3 29.5-16.8s20.3 16.7 16.8 29.5l-4.5 16.4c-5.5 20.2-13.9 39.3-24.7 56.9c-3.1 4.9-3.2 11.1-.4 16.2s8.2 8.2 14 8.2H448c17.7 0 32 14.3 32 32c0 11.3-5.9 21.3-14.8 27c-7.2 4.6-9.5 13.9-5.3 21.3c2.6 4.6 4.1 10 4.1 15.7c0 12.4-7 23.1-17.3 28.5c-4.2 2.2-7.3 6.1-8.3 10.8s.1 9.5 3 13.2c4.2 5.4 6.7 12.2 6.7 19.5c0 14.2-9.2 26.3-22.1 30.4c-7.8 2.6-12.4 10.6-10.7 18.6c.5 2.2 .7 4.5 .7 6.9c0 17.7-14.3 32-32 32H294.5c-15.8 0-31.2-4.7-44.4-13.4l-38.5-25.7c-9-6-16.6-13.7-22.4-22.6c-4.9-7.4-14.8-9.4-22.2-4.6s-9.4 14.8-4.6 22.2c8.1 12.3 18.7 23.1 31.4 31.6l38.5 25.7c18.4 12.3 40 18.8 62.1 18.8H384c35.3 0 64-28.7 64-64l0-.6c19.1-11.1 32-31.7 32-55.4c0-8.7-1.8-17.1-4.9-24.7C487.9 323.6 496 306.8 496 288c0-6.5-1-12.8-2.8-18.7C504.8 257.7 512 241.7 512 224c0-35.3-28.7-64-64-64H346.4c6.2-13.1 11.3-26.7 15.1-40.9l4.5-16.4c8.1-29.8-9.5-60.6-39.3-68.8s-60.6 9.5-68.8 39.3l-4.5 16.4c-8.9 32.6-29.6 60.8-58.2 79l-3.1 2c-11.8 7.5-21.7 17.1-29.5 28.2c-5.1 7.2-3.3 17.2 4 22.3s17.2 3.3 22.3-4c5.4-7.7 12.2-14.4 20.4-19.5l3.1-2c35.3-22.4 60.9-57.2 71.9-97.5l4.5-16.4zM32 224H96V448H32V224zM0 224V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32z"/></svg></span></a>
+  <a class="btn btn-secondary border-left" aria-label="Thumbs down (disliked it)" title="Disliked it" href="/feedback/survey/article/python-f-strings/disliked/?from=article-footer" target="_blank"><span class="icon baseline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288.8 430.3c3.5 12.8 16.7 20.3 29.5 16.8s20.3-16.7 16.8-29.5l-4.5-16.4c-5.5-20.2-13.9-39.3-24.7-56.9c-3.1-4.9-3.2-11.1-.4-16.2s8.2-8.2 14-8.2H448c17.7 0 32-14.3 32-32c0-11.3-5.9-21.3-14.8-27c-7.2-4.6-9.5-13.9-5.3-21.3c2.6-4.6 4.1-10 4.1-15.7c0-12.4-7-23.1-17.3-28.5c-4.2-2.2-7.3-6.1-8.3-10.8s.1-9.5 3-13.2c4.2-5.4 6.7-12.2 6.7-19.5c0-14.2-9.2-26.3-22.1-30.4c-7.8-2.5-12.4-10.6-10.7-18.6c.5-2.2 .7-4.5 .7-6.9c0-17.7-14.3-32-32-32H294.5c-15.8 0-31.2 4.7-44.4 13.4l-38.5 25.7c-9 6-16.6 13.7-22.4 22.6c-4.9 7.4-14.8 9.4-22.2 4.6s-9.4-14.8-4.6-22.2c8.1-12.3 18.7-23.1 31.4-31.6l38.5-25.7c18.4-12.3 40-18.8 62.1-18.8H384c35.3 0 64 28.7 64 64l0 .6c19.1 11.1 32 31.7 32 55.4c0 8.7-1.8 17.1-4.9 24.7C487.9 188.4 496 205.2 496 224c0 6.5-1 12.8-2.8 18.7C504.8 254.3 512 270.3 512 288c0 35.3-28.7 64-64 64H346.4c6.2 13.1 11.3 26.7 15.1 40.9l4.5 16.4c8.1 29.8-9.5 60.6-39.3 68.8s-60.6-9.5-68.8-39.3l-4.5-16.4c-8.9-32.6-29.6-60.8-58.2-79l-3.1-2 8.2-12.9-8.2 12.9c-11.8-7.5-21.7-17.1-29.5-28.2c-5.1-7.2-3.3-17.2 4-22.3s17.2-3.3 22.3 4c5.4 7.7 12.2 14.4 20.4 19.5l3.1 2c35.3 22.4 60.9 57.2 71.9 97.5l4.5 16.4zM32 352H96V128H32V352zM0 352V128c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32z"/></svg></span></a>
+</div>
+</span>
+      </div>
+    
+
+    
+      <div class="border rounded p-3 card mb-2">
+  <p class="mb-0"><span class="badge badge-pill badge-success"><i class="fa fa-play-circle" aria-hidden="true"></i> Watch Now</span> This tutorial has a related video course created by the Real Python team. Watch it together with the written tutorial to deepen your understanding: <a class="stretched-link text-success" href="/courses/python-3-f-strings-improved-string-formatting-syntax/"><strong>Python 3&#x27;s F-Strings: An Improved String Formatting Syntax</strong></a></p>
+</div>
+
+    
+  </div>
+
+  
+    
+
+<div class="card mt-4 mb-4 bg-secondary">
+  <p class="card-header h3 text-center bg-light">🐍 Python Tricks 💌</p>
+  <div class="card-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-7">
+          <p>Get a short &amp; sweet <strong>Python Trick</strong> delivered to your inbox every couple of days. No spam ever. Unsubscribe any time. Curated by the Real Python team.</p>
+        </div>
+        <div class="col-xs-12 col-sm-5">
+          <img loading="lazy" class="img-fluid rounded mb-3" src="/static/pytrick-dict-merge.4201a0125a5e.png" width="738" height="490" alt="Python Tricks Dictionary Merge">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <form class="col-12" action="/optins/process/" method="post">
+          <input type="hidden" name="csrfmiddlewaretoken" value="bI5IJkel1848VWroP4WPtkCPns26AZV0k4RJbi3HTaLfvwd02f8yevDSXyMez6YR">
+          <input type="hidden" name="slug" value="static-python-tricks-footer">
+          <div class="form-group">
+            <input name="email" type="email" class="form-control form-control-lg" placeholder="Email Address" required>
+          </div>
+          <button name="submit" type="submit" class="btn btn-primary btn-lg btn-block">Send Me Python Tricks »</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+
+  
+
+
+
+<div class="card mt-3" id="author">
+  <p class="card-header h3">About <strong>Joanna Jablonski</strong></p>
+  <div class="card-body">
+    <div class="container p-0">
+      <div class="row">
+        <div class="col-12 col-md-3 align-self-center">
+          <a href="/team/jjablonski/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=800&amp;h=800&amp;mode=crop&amp;sig=c363b704eeccb35f2247db13baff3d4383459858" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=200&amp;h=200&amp;mode=crop&amp;sig=706b16de3cb88a8f353f4a98d7c7bc7234229bd0 200w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=266&amp;h=266&amp;mode=crop&amp;sig=3003d96c12fd06ac995e52fcac8d9094a4a557b5 266w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=400&amp;h=400&amp;mode=crop&amp;sig=6d7aa672ca3f1ac5f7cd62ed1641b60f98d04d8b 400w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=800&amp;h=800&amp;mode=crop&amp;sig=c363b704eeccb35f2247db13baff3d4383459858 800w" sizes="(min-width: 580px) 154px, calc(33.08vw - 24px)" width="800" height="800" style="background: #b8b9bb;" class="d-block d-md-none rounded-circle img-fluid w-33 mb-0 mx-auto" alt="Joanna Jablonski"></a>
+          <a href="/team/jjablonski/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=800&amp;h=800&amp;mode=crop&amp;sig=c363b704eeccb35f2247db13baff3d4383459858" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=200&amp;h=200&amp;mode=crop&amp;sig=706b16de3cb88a8f353f4a98d7c7bc7234229bd0 200w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=266&amp;h=266&amp;mode=crop&amp;sig=3003d96c12fd06ac995e52fcac8d9094a4a557b5 266w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=400&amp;h=400&amp;mode=crop&amp;sig=6d7aa672ca3f1ac5f7cd62ed1641b60f98d04d8b 400w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jjablonksi-avatar.e37c4f83308e.jpg&amp;w=800&amp;h=800&amp;mode=crop&amp;sig=c363b704eeccb35f2247db13baff3d4383459858 800w" sizes="(min-width: 1200px) 140px, calc(-1.5vw + 137px)" width="800" height="800" style="background: #b8b9bb;" class="d-none d-md-block rounded-circle img-fluid w-100 mb-0" alt="Joanna Jablonski"></a>
+        </div>
+        <div class="col mt-3">
+          <p>Joanna is the Executive Editor of Real Python. She loves natural languages just as much as she loves programming languages!</p>
+          <a href="/team/jjablonski/" class="card-link">» More about Joanna</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <hr class="my-0">
+  <div class="card-body pb-0">
+    <div class="container">
+      <div class="row">
+        <p><em>Each tutorial at Real Python is created by a team of developers so that it meets our high quality standards. The team members who worked on this tutorial are:</em></p>
+      </div>
+
+      
+        
+          <div class="row align-items-center w-100 mx-auto">
+        
+
+        <div class="col-4 col-sm-2 align-self-center">
+          
+            <a href="/team/acutenco/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/acutenco.676e4197c133.jpg&amp;w=900&amp;h=900&amp;mode=crop&amp;sig=24cf94292ef36437cfbefea8426a0eaf6ca3f45b" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/acutenco.676e4197c133.jpg&amp;w=225&amp;h=225&amp;mode=crop&amp;sig=7cca7452c6f8a07ddcf7a86daa5053b7a67ae31e 225w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/acutenco.676e4197c133.jpg&amp;w=300&amp;h=300&amp;mode=crop&amp;sig=673e1727e9f94412c14bb1cb899fb4612f268b4a 300w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/acutenco.676e4197c133.jpg&amp;w=450&amp;h=450&amp;mode=crop&amp;sig=f9731172573b6157e33d670efdd6fd23ebc813cc 450w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/acutenco.676e4197c133.jpg&amp;w=900&amp;h=900&amp;mode=crop&amp;sig=24cf94292ef36437cfbefea8426a0eaf6ca3f45b 900w" sizes="(min-width: 1200px) 73px, (min-width: 780px) calc(-0.75vw + 69px), (min-width: 580px) 43px, calc(33.46vw - 64px)" width="900" height="900" style="background: #a59b9c;" class="rounded-circle img-fluid w-100" alt="Adriana Cutenco"></a>
+          
+        </div>
+        <div class="col pl-0 d-none d-sm-block">
+          <a href="/team/acutenco/" class="card-link small"><p>Adriana</p></a>
+        </div>
+
+        
+
+        
+      
+        
+
+        <div class="col-4 col-sm-2 align-self-center">
+          
+            <a href="/team/damos/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/me-small.f5f49f1c48e1.jpg&amp;w=400&amp;h=400&amp;mode=crop&amp;sig=522ebc378492fd2228f8a9980bf89544b51aba2c" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/me-small.f5f49f1c48e1.jpg&amp;w=100&amp;h=100&amp;mode=crop&amp;sig=4e832705873c990ccc3fe2459dcd2b081613ecb1 100w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/me-small.f5f49f1c48e1.jpg&amp;w=133&amp;h=133&amp;mode=crop&amp;sig=fa76af48f5292f75f931d2dc0eb223cc49113518 133w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/me-small.f5f49f1c48e1.jpg&amp;w=200&amp;h=200&amp;mode=crop&amp;sig=ecc773a7a56114ed2831d281156669f0d7f1ab68 200w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/me-small.f5f49f1c48e1.jpg&amp;w=400&amp;h=400&amp;mode=crop&amp;sig=522ebc378492fd2228f8a9980bf89544b51aba2c 400w" sizes="(min-width: 1200px) 73px, (min-width: 780px) calc(-0.75vw + 69px), (min-width: 580px) 43px, calc(33.46vw - 64px)" width="400" height="400" style="background: #7c7e7d;" class="rounded-circle img-fluid w-100" alt="David Amos"></a>
+          
+        </div>
+        <div class="col pl-0 d-none d-sm-block">
+          <a href="/team/damos/" class="card-link small"><p>David</p></a>
+        </div>
+
+        
+
+        
+      
+        
+
+        <div class="col-4 col-sm-2 align-self-center">
+          
+            <a href="/team/dbader/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/daniel-square.d58bf4388750.jpg&amp;w=1000&amp;h=1000&amp;mode=crop&amp;sig=304f5f568993310d5e87b2ca3c504260c018effa" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/daniel-square.d58bf4388750.jpg&amp;w=250&amp;h=250&amp;mode=crop&amp;sig=981634b4528584f2e9c7ee663477173599e1781a 250w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/daniel-square.d58bf4388750.jpg&amp;w=333&amp;h=333&amp;mode=crop&amp;sig=96005b865a7753e3bd47fd88dafab70a686b1224 333w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/daniel-square.d58bf4388750.jpg&amp;w=500&amp;h=500&amp;mode=crop&amp;sig=841025b97d25f05c1b90802032e477020462fe01 500w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/daniel-square.d58bf4388750.jpg&amp;w=1000&amp;h=1000&amp;mode=crop&amp;sig=304f5f568993310d5e87b2ca3c504260c018effa 1000w" sizes="(min-width: 1200px) 73px, (min-width: 780px) calc(-0.75vw + 69px), (min-width: 580px) 43px, calc(33.46vw - 64px)" width="1000" height="1000" style="background: #dad5cf;" class="rounded-circle img-fluid w-100" alt="Dan Bader"></a>
+          
+        </div>
+        <div class="col pl-0 d-none d-sm-block">
+          <a href="/team/dbader/" class="card-link small"><p>Dan</p></a>
+        </div>
+
+        
+
+        
+          </div>
+        
+      
+        
+          <div class="row align-items-center w-100 mx-auto">
+        
+
+        <div class="col-4 col-sm-2 align-self-center">
+          
+            <a href="/team/janderson/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jima.0b8f990b951a.jpg&amp;w=700&amp;h=700&amp;mode=crop&amp;sig=56f5f2e95c106f905736b62a165ec40540bbd5f3" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jima.0b8f990b951a.jpg&amp;w=175&amp;h=175&amp;mode=crop&amp;sig=7a31f392cdb36bdba441a07f51cb4ee9e05b6278 175w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jima.0b8f990b951a.jpg&amp;w=233&amp;h=233&amp;mode=crop&amp;sig=4896f7d3f0eb0ccd0df27edf386cb77cde3862fc 233w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jima.0b8f990b951a.jpg&amp;w=350&amp;h=350&amp;mode=crop&amp;sig=930eb646d5099a859b2324ee0a092fda6cb9c4c5 350w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/jima.0b8f990b951a.jpg&amp;w=700&amp;h=700&amp;mode=crop&amp;sig=56f5f2e95c106f905736b62a165ec40540bbd5f3 700w" sizes="(min-width: 1200px) 73px, (min-width: 780px) calc(-0.75vw + 69px), (min-width: 580px) 43px, calc(33.46vw - 64px)" width="700" height="700" style="background: #a1a09c;" class="rounded-circle img-fluid w-100" alt="Jim Anderson"></a>
+          
+        </div>
+        <div class="col pl-0 d-none d-sm-block">
+          <a href="/team/janderson/" class="card-link small"><p>Jim</p></a>
+        </div>
+
+        
+
+        
+      
+        
+
+        <div class="col-4 col-sm-2 align-self-center">
+          
+            <a href="/team/panni/"><img loading="lazy" src="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/real-python-logo-square.28474fda9228.png&amp;w=1500&amp;h=1500&amp;mode=crop&amp;sig=cde57ea954c4fba2999456a2cbffa297fbc0f31d" srcset="https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/real-python-logo-square.28474fda9228.png&amp;w=375&amp;h=375&amp;mode=crop&amp;sig=a4fe7835d3add4020f4719e30686c2f93c955307 375w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/real-python-logo-square.28474fda9228.png&amp;w=500&amp;h=500&amp;mode=crop&amp;sig=822d8957de7c7ff39ce82453a80c91f676a74cfc 500w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/real-python-logo-square.28474fda9228.png&amp;w=750&amp;h=750&amp;mode=crop&amp;sig=e9d5bf35942de842b9f3a5a53719a4b946754655 750w, https://robocrop.realpython.net/?url=https%3A//files.realpython.com/media/real-python-logo-square.28474fda9228.png&amp;w=1500&amp;h=1500&amp;mode=crop&amp;sig=cde57ea954c4fba2999456a2cbffa297fbc0f31d 1500w" sizes="(min-width: 1200px) 73px, (min-width: 780px) calc(-0.75vw + 69px), (min-width: 580px) 43px, calc(33.46vw - 64px)" width="1500" height="1500" style="background: #14354c;" class="rounded-circle img-fluid w-100" alt="Pavel Anni"></a>
+          
+        </div>
+        <div class="col pl-0 d-none d-sm-block">
+          <a href="/team/panni/" class="card-link small"><p>Pavel</p></a>
+        </div>
+
+        
+          
+          
+            <div class="col-4 col-sm-2 align-self-center"></div>
+            <div class="col pl-0 d-none d-sm-block"></div>
+          
+        
+
+        
+          </div>
+        
+      
+    </div>
+  </div>
+  
+
+</div>
+
+
+
+
+
+  
+    
+
+<div class="bg-light rounded py-4 my-4 shadow shadow-sm mx-n2">
+  
+  <div class="col-12 text-center d-block d-md-none">
+    <p class="h2 mb-3">Master <u><span class="marker-highlight">Real-World Python Skills</mark></u> With Unlimited Access to Real&nbsp;Python</p>
+    <p class="mb-1"><img loading="lazy" class="w-75" src="/static/videos/lesson-locked.f5105cfd26db.svg" width="510" height="260"></p>
+    <p class="mx-auto w-75 mb-3 small"><strong>Join us and get access to thousands of tutorials, hands-on video courses, and a community of expert&nbsp;Pythonistas:</strong></p>
+    <p class="mb-0"><a href="/account/join/?utm_source=rp_article_footer&utm_content=python-f-strings" class="btn btn-primary btn-sm px-4 mb-0">Level Up Your Python Skills »</a>
+  </div>
+
+  
+  <div class="col-12 text-center d-none d-md-block">
+    <p class="h2 mb-2">Master <u><span class="marker-highlight">Real-World Python Skills</span></u><br>With Unlimited Access to Real&nbsp;Python</p>
+    <p class="mb-2"><img loading="lazy" class="w-50 mb-2" src="/static/videos/lesson-locked.f5105cfd26db.svg" width="510" height="260"></p>
+    <p class="mx-auto w-50 mb-3"><strong>Join us and get access to thousands of tutorials, hands-on video courses, and a community of expert Pythonistas:</strong></p>
+    <p><a href="/account/join/?utm_source=rp_article_footer&utm_content=python-f-strings" class="btn btn-primary btn-lg px-4">Level Up Your Python Skills »</a>
+  </div>
+</div>
+
+  
+
+  
+  <div class="card mt-4" id="reader-comments">
+    <p class="card-header h3">What Do You Think?</p>
+    
+    <div class="text-center mt-3 mb-0 p-0">
+      <div class="mb-2">
+        <strong class="mr-2">Rate this article:</strong>
+        
+<div class="btn-group mb-0">
+  <a class="btn btn-secondary border-right" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" title="Liked it" aria-label="Thumbs up (liked it)" href="/feedback/survey/article/python-f-strings/liked/?from=article-comments" target="_blank"><span class="icon baseline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288.8 81.7c3.5-12.8 16.7-20.3 29.5-16.8s20.3 16.7 16.8 29.5l-4.5 16.4c-5.5 20.2-13.9 39.3-24.7 56.9c-3.1 4.9-3.2 11.1-.4 16.2s8.2 8.2 14 8.2H448c17.7 0 32 14.3 32 32c0 11.3-5.9 21.3-14.8 27c-7.2 4.6-9.5 13.9-5.3 21.3c2.6 4.6 4.1 10 4.1 15.7c0 12.4-7 23.1-17.3 28.5c-4.2 2.2-7.3 6.1-8.3 10.8s.1 9.5 3 13.2c4.2 5.4 6.7 12.2 6.7 19.5c0 14.2-9.2 26.3-22.1 30.4c-7.8 2.6-12.4 10.6-10.7 18.6c.5 2.2 .7 4.5 .7 6.9c0 17.7-14.3 32-32 32H294.5c-15.8 0-31.2-4.7-44.4-13.4l-38.5-25.7c-9-6-16.6-13.7-22.4-22.6c-4.9-7.4-14.8-9.4-22.2-4.6s-9.4 14.8-4.6 22.2c8.1 12.3 18.7 23.1 31.4 31.6l38.5 25.7c18.4 12.3 40 18.8 62.1 18.8H384c35.3 0 64-28.7 64-64l0-.6c19.1-11.1 32-31.7 32-55.4c0-8.7-1.8-17.1-4.9-24.7C487.9 323.6 496 306.8 496 288c0-6.5-1-12.8-2.8-18.7C504.8 257.7 512 241.7 512 224c0-35.3-28.7-64-64-64H346.4c6.2-13.1 11.3-26.7 15.1-40.9l4.5-16.4c8.1-29.8-9.5-60.6-39.3-68.8s-60.6 9.5-68.8 39.3l-4.5 16.4c-8.9 32.6-29.6 60.8-58.2 79l-3.1 2c-11.8 7.5-21.7 17.1-29.5 28.2c-5.1 7.2-3.3 17.2 4 22.3s17.2 3.3 22.3-4c5.4-7.7 12.2-14.4 20.4-19.5l3.1-2c35.3-22.4 60.9-57.2 71.9-97.5l4.5-16.4zM32 224H96V448H32V224zM0 224V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32z"/></svg></span></a>
+  <a class="btn btn-secondary border-left" aria-label="Thumbs down (disliked it)" title="Disliked it" href="/feedback/survey/article/python-f-strings/disliked/?from=article-comments" target="_blank"><span class="icon baseline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M288.8 430.3c3.5 12.8 16.7 20.3 29.5 16.8s20.3-16.7 16.8-29.5l-4.5-16.4c-5.5-20.2-13.9-39.3-24.7-56.9c-3.1-4.9-3.2-11.1-.4-16.2s8.2-8.2 14-8.2H448c17.7 0 32-14.3 32-32c0-11.3-5.9-21.3-14.8-27c-7.2-4.6-9.5-13.9-5.3-21.3c2.6-4.6 4.1-10 4.1-15.7c0-12.4-7-23.1-17.3-28.5c-4.2-2.2-7.3-6.1-8.3-10.8s.1-9.5 3-13.2c4.2-5.4 6.7-12.2 6.7-19.5c0-14.2-9.2-26.3-22.1-30.4c-7.8-2.5-12.4-10.6-10.7-18.6c.5-2.2 .7-4.5 .7-6.9c0-17.7-14.3-32-32-32H294.5c-15.8 0-31.2 4.7-44.4 13.4l-38.5 25.7c-9 6-16.6 13.7-22.4 22.6c-4.9 7.4-14.8 9.4-22.2 4.6s-9.4-14.8-4.6-22.2c8.1-12.3 18.7-23.1 31.4-31.6l38.5-25.7c18.4-12.3 40-18.8 62.1-18.8H384c35.3 0 64 28.7 64 64l0 .6c19.1 11.1 32 31.7 32 55.4c0 8.7-1.8 17.1-4.9 24.7C487.9 188.4 496 205.2 496 224c0 6.5-1 12.8-2.8 18.7C504.8 254.3 512 270.3 512 288c0 35.3-28.7 64-64 64H346.4c6.2 13.1 11.3 26.7 15.1 40.9l4.5 16.4c8.1 29.8-9.5 60.6-39.3 68.8s-60.6-9.5-68.8-39.3l-4.5-16.4c-8.9-32.6-29.6-60.8-58.2-79l-3.1-2 8.2-12.9-8.2 12.9c-11.8-7.5-21.7-17.1-29.5-28.2c-5.1-7.2-3.3-17.2 4-22.3s17.2-3.3 22.3 4c5.4 7.7 12.2 14.4 20.4 19.5l3.1 2c35.3 22.4 60.9 57.2 71.9 97.5l4.5 16.4zM32 352H96V128H32V352zM0 352V128c0-17.7 14.3-32 32-32H96c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32z"/></svg></span></a>
+</div>
+
+      </div>
+      
+<span>
+  <a target="_blank" rel="nofollow" href="https://twitter.com/intent/tweet/?text=Check out this %23Python tutorial: Python%203%27s%20F-Strings%3A%20An%20Improved%20String%20Formatting%20Syntax%20%28Guide%29 by @realpython&url=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-twitter text-light mb-1"><i class="mr-1 fa fa-twitter text-light"></i>Tweet</a>
+  <a target="_blank" rel="nofollow" href="https://facebook.com/sharer/sharer.php?u=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-facebook text-light mb-1"><i class="mr-1 fa fa-facebook text-light"></i>Share</a>
+  
+  <a target="_blank" rel="nofollow" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A//realpython.com/python-f-strings/" class="mr-1 badge badge-linkedin text-light mb-1"><i class="mr-1 fa fa-linkedin text-light"></i>Share</a>
+  
+  <a target="_blank" rel="nofollow" href="mailto:?subject=Python article for you&body=Check out this Python tutorial:%0A%0APython%203%27s%20F-Strings%3A%20An%20Improved%20String%20Formatting%20Syntax%20%28Guide%29%0A%0Ahttps%3A//realpython.com/python-f-strings/" class="badge badge-red text-light mb-1"><i class="mr-1 fa fa-envelope text-light"></i>Email</a>
+</span>
+
+    </div>
+    
+    <div class="card-body">
+      <p>What’s your #1 takeaway or favorite thing you learned? How are you going to put your newfound skills to use? Leave a comment below and let us know.</p>
+
+      <div class="alert alert-dark">
+        <p class="mb-0"><strong>Commenting Tips:</strong> The most useful comments are those written with the goal of learning from or helping out other students. <a href="https://realpython.com/python-beginner-tips/#tip-9-ask-good-questions" target="_blank">Get tips for asking good questions</a> and <a href="https://support.realpython.com" target="_blank">get answers to common questions in our support portal</a>.<hr>Looking for a real-time conversation? Visit the <a href="/community/" target="_blank">Real Python Community Chat</a> or join the next <a href="/office-hours/" target="_blank">&ldquo;Office&nbsp;Hours&rdquo; Live Q&A Session</a>. Happy Pythoning!</p>
+
+      </div>
+
+      <div class="mb-4" id="disqus_thread">
+      
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="card mt-4 mb-4">
+    <p class="card-header h3">Keep Learning</p>
+    <div class="card-body">
+      <p class="mb-0">Related Tutorial Categories:
+      
+        <a href="/tutorials/basics/" class="badge badge-light text-muted">basics</a>
+      
+        <a href="/tutorials/python/" class="badge badge-light text-muted">python</a>
+      
+      </p>
+      
+        <p class="mt-3 mb-0">Recommended Video Course: <a class="text-success" href="/courses/python-3-f-strings-improved-string-formatting-syntax/">Python 3&#x27;s F-Strings: An Improved String Formatting Syntax</a></p>
+      
+    </div>
+  </div>
+
+  
+    
+
+<div class="modal fade" tabindex="-1" role="dialog" id="rprw">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header border-0">
+        <div class="col-12 col-lg-9 mx-auto modal-title text-center my-2">
+          <h2 class="my-0">Keep reading Real&nbsp;Python by creating a free account or signing&nbsp;in:</h2>
+        </div>
+      </div>
+
+      
+      <div class="modal-body bg-light">
+        <div class="col-12 text-center">
+
+          <div class="col-12 col-lg-8 mx-auto mb-2 mt-3">
+            <a href="/account/signup/?intent=continue_reading&utm_source=rp&utm_medium=web&utm_campaign=rwn&utm_content=v1&next=%2Fpython-f-strings%2F"><img loading="lazy" class="w-100" src="/static/videos/lesson-locked.f5105cfd26db.svg"  width="510" height="260" alt="Keep reading"></a>
+          </div>
+
+          <p><a href="/account/signup/?intent=continue_reading&utm_source=rp&utm_medium=web&utm_campaign=rwn&utm_content=v1&next=%2Fpython-f-strings%2F" class="btn btn-primary btn-lg px-5"></i>Continue »</a></p>
+
+        </div>
+      </div>
+      
+
+      <div class="modal-footer border-0">
+        <p class="text-center text-muted mt-2 mb-1">Already have an account? <a href="/account/login/?next=/python-f-strings/">Sign-In</a></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    <script src="/static/frontend/reader/rw.bea76ad0e23f.js" async></script>
+  
+
+
+    </div>
+
+  </div>
+
+    </div>
+
+    
+    
+
+    
+    
+      
+        
+          <div class="modal fade" id="modal-python-cheat-sheet-short" tabindex="-1" aria-labelledby="modal-python-cheat-sheet-short-title" aria-describedby="modal-python-cheat-sheet-short-desc">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header bg-light pt-3 pb-2">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="progress" style="height: .5rem;" aria-hidden="true">
+                <div class="progress-bar progress-bar-striped progress-bar-animated w-75" role="progressbar"></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <p id="modal-python-cheat-sheet-short-desc" class="text-muted text-center mb-0 mt-2">Almost there! Complete this form and click the button below to gain instant&nbsp;access:</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body m-4">
+        <div class="container-fluid">
+          <div class="row align-items-center text-center">
+            <div class="col-12 col-lg-4 mb-4 mb-lg-0">
+              
+              
+                <img loading="lazy" class="img-fluid rounded" src="https://files.realpython.com/media/python-logo.8eb72ea6927b.png" width="1000" height="1000" srcset="/cdn-cgi/image/width=250,format=auto/https://files.realpython.com/media/python-logo.8eb72ea6927b.png 250w, /cdn-cgi/image/width=333,format=auto/https://files.realpython.com/media/python-logo.8eb72ea6927b.png 333w, /cdn-cgi/image/width=500,format=auto/https://files.realpython.com/media/python-logo.8eb72ea6927b.png 500w, /cdn-cgi/image/width=1000,format=auto/https://files.realpython.com/media/python-logo.8eb72ea6927b.png 1000w" sizes="(min-width: 1000px) 207px, (min-width: 580px) 382px, calc(100vw - 134px)" alt="Python Logo">
+              
+            </div>
+            <div class="col">
+              <p id="modal-python-cheat-sheet-short-title" class="text-center h3 mb-4">Python 3 Cheat Sheet (PDF)</p>
+
+              <form class="col-12" action="/optins/process/" method="post">
+                <input type="hidden" name="csrfmiddlewaretoken" value="bI5IJkel1848VWroP4WPtkCPns26AZV0k4RJbi3HTaLfvwd02f8yevDSXyMez6YR">
+                <input type="hidden" name="slug" value="python-cheat-sheet-short">
+                <input type="hidden" name="source_path" value="/python-f-strings/"> 
+                <div class="form-group">
+                  <input type="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
+                </div>
+                <button name="submit" type="submit" class="btn btn-primary btn-block text-wrap">Send Cheat Sheet »</button>
+                <p class="mb-0 mt-2 text-muted text-center"><small>🔒 No spam. We take your privacy seriously.</small></p>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+        
+      
+    
+
+    
+      <footer class="footer">
+  <div class="container">
+    
+      <div class="mx-auto mt-4 mb-0" style="max-width: 768px;">
+        
+<div style="display:block;position:relative;">
+  <div style="display:block;width:100%;padding-top:12.5%;"></div>
+  <div class="rpad rounded border" data-unit="8x1" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;"></div>
+</div>
+<a class="small text-muted" href="/account/join/" rel="nofollow"><i class="fa fa-info-circle mr-1" aria-hidden="true"></i>Remove ads</a>
+
+
+      </div>
+    
+
+    <p class="text-center text-muted w-75 mx-auto">© 2012–2023 Real&nbsp;Python&nbsp;⋅ <a href="/newsletter/">Newsletter</a>&nbsp;⋅ <a href="/podcasts/rpp/">Podcast</a>&nbsp;⋅ <a href="https://www.youtube.com/realpython">YouTube</a>&nbsp;⋅ <a href="https://twitter.com/realpython">Twitter</a>&nbsp;⋅ <a href="https://facebook.com/LearnRealPython">Facebook</a>&nbsp;⋅ <a href="https://www.instagram.com/realpython/">Instagram</a>&nbsp;⋅ <a href="/">Python&nbsp;Tutorials</a>&nbsp;⋅ <a href="/search">Search</a>&nbsp;⋅ <a href="/privacy-policy/">Privacy Policy</a>&nbsp;⋅ <a href="/energy-policy/">Energy Policy</a>&nbsp;⋅ <a href="/sponsorships/">Advertise</a>&nbsp;⋅ <a href="/contact/">Contact</a><br>❤️ Happy Pythoning!</p>
+  </div>
+</footer>
+
+    
+
+    
+    
+    <script>
+      (function(document, history, location) {
+        var HISTORY_SUPPORT = !!(history && history.pushState);
+
+        var anchorScrolls = {
+          ANCHOR_REGEX: /^#[^ ]+$/,
+          OFFSET_HEIGHT_PX: 120,
+
+          /**
+           * Establish events, and fix initial scroll position if a hash is provided.
+           */
+          init: function() {
+            this.scrollToCurrent();
+            window.addEventListener('hashchange', this.scrollToCurrent.bind(this));
+            document.body.addEventListener('click', this.delegateAnchors.bind(this));
+          },
+
+          /**
+           * Return the offset amount to deduct from the normal scroll position.
+           * Modify as appropriate to allow for dynamic calculations
+           */
+          getFixedOffset: function() {
+            return this.OFFSET_HEIGHT_PX;
+          },
+
+          /**
+           * If the provided href is an anchor which resolves to an element on the
+           * page, scroll to it.
+           * @param  {String} href
+           * @return {Boolean} - Was the href an anchor.
+           */
+          scrollIfAnchor: function(href, pushToHistory) {
+            var match, rect, anchorOffset;
+
+            if(!this.ANCHOR_REGEX.test(href)) {
+              return false;
+            }
+
+            match = document.getElementById(href.slice(1));
+
+            if(match) {
+              rect = match.getBoundingClientRect();
+              anchorOffset = window.pageYOffset + rect.top - this.getFixedOffset();
+              window.scrollTo(window.pageXOffset, anchorOffset);
+
+              // Add the state to history as-per normal anchor links
+              if(HISTORY_SUPPORT && pushToHistory) {
+                history.pushState({}, document.title, location.pathname + href);
+              }
+            }
+
+            return !!match;
+          },
+
+          /**
+           * Attempt to scroll to the current location's hash.
+           */
+          scrollToCurrent: function() {
+            this.scrollIfAnchor(window.location.hash);
+          },
+
+          /**
+           * If the click event's target was an anchor, fix the scroll position.
+           */
+          delegateAnchors: function(e) {
+            var elem = e.target;
+
+            // 
+            if (elem.dataset.toggle === "tab") {
+              return;
+            }
+
+            if(
+              elem.nodeName === 'A' &&
+              this.scrollIfAnchor(elem.getAttribute('href'), true)
+            ) {
+              e.preventDefault();
+            }
+          }
+        };
+
+        window.addEventListener(
+          'DOMContentLoaded', anchorScrolls.init.bind(anchorScrolls)
+        );
+      })(window.document, window.history, window.location);
+    </script>
+    
+
+    
+    <script>
+      (function() {
+        var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+        if (!isAndroid) {
+          return;
+        }
+
+        var styles = `
+        @font-face {
+          font-family: 'DejaVu Sans Mono';
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+          src: url('/static/mfonts/dejavu-sans-mono.33f00225f915.woff2') format('woff2'),
+               url('/static/mfonts/dejavu-sans-mono.0da77d3739f3.woff') format('woff'),
+               url('/static/mfonts/dejavu-sans-mono.c2356fc49835.ttf') format('truetype');
+        }
+        code, kbd, pre, samp {
+          font-family: 'DejaVu Sans Mono', monospace;
+        }
+        `
+
+        var styleSheet = document.createElement("style")
+        styleSheet.type = "text/css"
+        styleSheet.innerText = styles
+        document.head.appendChild(styleSheet)
+      })();
+    </script>
+
+    
+    
+    <script src="/static/jquery.min.00727d1d5d9c.js"></script>
+    <script src="/static/popper.min.47dc3aaf2942.js"></script>
+    <script src="/static/bootstrap.min.a3b2689424c3.js"></script>
+
+    
+    
+
+    <script>
+    (function() {
+      document.querySelectorAll(".js-search-form-submit").forEach(function(el) {
+        el.addEventListener("click", function(e) {
+          e.preventDefault();
+          e.currentTarget.parentElement.submit();
+        })
+      });
+    })();
+    </script>
+    <script src="/static/frontend/reader/repl-toggle.925bef973b9c.js" async></script>
+    <script src="/static/frontend/reader/lightbox.bab438c0f968.js" async></script>
+    <script src="/static/frontend/reader/platforms-ui.b11202dc6079.js" async></script>
+    
+
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+
+<script>window.rp_prop_id = '58946116052';</script>
+<script src="https://srv.realpython.net/tag.js" async></script>
+
+
+
+<script src="/static/frontend/reader/toc-refresh.f019e7905d90.js" async></script>
+
+<script id="js-context" type="application/json">{"is_completed": false, "is_bookmarked": false, "api_article_bookmark_url": "/api/v1/articles/python-f-strings/bookmark/", "api_article_completion_status_url": "/api/v1/articles/python-f-strings/completion_status/"}</script>
+<script src="/static/frontend/reader/completion-status.9e53f607e255.js" async></script>
+
+
+
+
+
+
+  
+    <script id="dsq-count-scr" src="https://realpython.disqus.com/count.js" async></script>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://realpython.com/python-f-strings/';
+        this.page.identifier = 'https://realpython.com/python-f-strings/';
+        this.callbacks.onReady = [function() {
+          if (window.onDisqusReady) {
+            window.onDisqusReady();
+          }
+        }];
+      };
+      var disqus_script_url = 'https://realpython.disqus.com/embed.js';
+    </script>
+    <script src="/static/frontend/reader/lazy-disqus.07ee9079f4a3.js" defer></script>
+  
+
+
+  
+  
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "c0081e20-a523-42bb-b0ac-04c5a9e8bf40"
+      });
+    });
+  </script>
+  
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Python 3\u0027s F\u002DStrings: An Improved String Formatting Syntax (Guide)",
+    
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://files.realpython.com/media/Python-f-Strings-Guide_Watermark.2c8be8b1d392.jpg",
+      "width": 1920,
+      "height": 1080
+    },
+    
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://realpython.com/python-f-strings/"
+    },
+    "datePublished": "2018-05-14T14:00:00+00:00",
+    "dateModified": "2023-08-04T22:23:03.037480+00:00",
+     "publisher": {
+      "@type": "Organization",
+      "name": "Real Python",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "/static/real-python-logo-square-tiny.b2452b6d3823.png",
+        "width": 60,
+        "height": 60
+      }
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Real Python",
+      "url": "https://realpython.com",
+      "logo": "/static/real-python-logo-square.146e987bf77c.png"
+    },
+    "description": "As of Python 3.6, f\u002Dstrings are a great new way to format strings. Not only are they more readable, more concise, and less prone to error than other ways of formatting, but they are also faster! By the end of this article, you will learn how and why to start using f\u002Dstrings today."
+  }
+  </script>
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2220911568135371');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2220911568135371&ev=PageView&noscript=1"
+/></noscript>
+
+
+    
+
+    
+
+  </body>
+</html>
